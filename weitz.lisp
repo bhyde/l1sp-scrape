@@ -58,11 +58,14 @@
 
 (defun collect-weitz-names (lib)
   (collect-matches-in-sexpr
-   (fetch-into-h-sexpr (format nil "http://weitz.de/~(~A~)/" lib))
+   (fetch-into-h-sexpr (base-url-of-library lib))
    #'weitz-match-2))
 
 (macrolet ((defscrape (library-name)
-             `(defmethod collect-names ((lib (eql ',library-name))) (collect-weitz-names lib))))
+             `(progn
+                (defmethod collect-names ((lib (eql ',library-name))) (collect-weitz-names lib))
+                (defmethod base-url-of-library ((lib (eql ',library-name)))
+                  (format nil "http://weitz.de/~(~A~)/" lib)))))
   (defscrape cl-gd)
   (defscrape cl-who)
   (defscrape cl-webdav)

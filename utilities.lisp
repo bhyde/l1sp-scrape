@@ -70,8 +70,22 @@
 ;; (loop for i in *libraries-we-want* do (summarize-status i))
 
 
+(defgeneric emit-redirects-txt (lib))
+
+(defmethod  emit-redirects-txt ((lib symbol))
+  (loop
+     with base-url = (base-url-of-library lib)
+     for name in (collect-names lib)
+     as anchor = (drakma:url-encode name :ascii)
+     do (format t "~&~(~A ~a t ~a#~a~)" lib name base-url anchor)))
+
+
 (defparameter *libraries-we-want*
-  '(cl-gd cl-who cl-webdav cl-unicode flexi-streams documentation-template cl-fad cl-ppcre drakma))
+  '(;; misc
+    alexandria
+    ;; weitz
+    cl-gd cl-who cl-webdav cl-unicode flexi-streams
+    documentation-template cl-fad cl-ppcre drakma))
 
 (defun emit-files ()
   (loop

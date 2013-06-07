@@ -9,5 +9,4 @@
                (:file "packages")
                (:file "utilities")
                (:file "weitz")
-               #+nil(:file "foo")
-               ))
+               (:file "misc")))
